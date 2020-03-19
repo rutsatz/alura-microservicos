@@ -1,0 +1,10 @@
+
+# porta padrão do eureka.
+server:  port: 8761
+
+# Digo pra ele que ele não precisa se registrar no servidor eureka,
+# pois ele próprio é o server.
+eureka:  client:    register-with-eureka: false
+    # E também não vai guardar informações de outras aplicações, não vai
+    # fazer cache localmente.
+    fetch-registry: false
