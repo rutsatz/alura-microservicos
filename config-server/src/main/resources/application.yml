@@ -1,0 +1,7 @@
+
+server:  port: 8888
+
+# Configuramos onde o server config deve buscar as configurações,
+# que serão compartilhadas com os demais serviços.
+spring:  profiles:    active: native
+  cloud:    config:      server:        native:          search-locations: C:/Users/rafael.rutsatz/Documents/workspace-spring-tool-suite-4-4.5.1.RELEASE/alura-microservicos-repo

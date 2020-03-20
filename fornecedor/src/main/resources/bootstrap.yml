@@ -1,0 +1,18 @@
+# Como tem configurações relacionadas a banco, elas precisam ser buscadas antes
+# de subir a aplicação. Se deixar no contexto normal, no application, o Hibernate
+# vai tentar encontrar as confs, mas o spring ainda está buscando as confs.
+# Aí no caso, o Hibernate iria dar erro dizendo que não conseguiu encontrar.
+spring:
+  application:
+    # Nome usado para o serviço se registrar no eureka.
+    name: 'fornecedor'
+  profiles:
+    # Dizemos qual o profile que está ativo. Ele usa esse profile para buscar
+    # as confs certas do config server.
+    active: default
+  cloud:
+    # Configuramos o endereço do config server. Com o endereço + nome da aplicação
+    # + o profile ativo, ele faz a requisição.
+    # Exemplo: http://localhost:8888/fornecedor/default
+    config:
+      uri: http://localhost:8888

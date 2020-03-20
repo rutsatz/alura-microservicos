@@ -1,19 +1,5 @@
 
 server:  port: 8081
-  
-spring:
-  application:
-    # Nome usado para o serviço se registrar no eureka.
-    name: 'fornecedor'
-  jpa:
-    database: postgresql
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-  datasource:
-    url: jdbc:postgresql://localhost:5432/fornecedor?useSSL=false
-    username: postgres
-    password: postgres
 
 eureka:
   client:
