@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.alura.microservice.fornecedor.model.InfoFornecedor;
 import br.com.alura.microservice.fornecedor.service.InfoService;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/info")
+@Slf4j
 public class InfoController {
 
 	@Autowired
@@ -18,6 +20,7 @@ public class InfoController {
 
 	@GetMapping("/{estado}")
 	public InfoFornecedor getInfoPorEstado(@PathVariable String estado) {
+		log.info("recebido pedido de informações do fornecedor de {}", estado);
 		return infoService.getInfoPorEstado(estado);
 	}
 
