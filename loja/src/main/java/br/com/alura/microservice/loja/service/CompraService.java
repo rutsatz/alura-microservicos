@@ -3,6 +3,8 @@ package br.com.alura.microservice.loja.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 import br.com.alura.microservice.loja.client.FornecedorClient;
 import br.com.alura.microservice.loja.controller.dto.CompraDTO;
 import br.com.alura.microservice.loja.controller.dto.InfoFornecedorDTO;
@@ -20,6 +22,19 @@ public class CompraService {
 	@Autowired
 	private FornecedorClient fornecedorClient;
 
+	/**
+	 * O @HystrixCommand habilita o hystrix para fazer todo o gerenciamento do
+	 * método, com o circuit breaker e fallback. Com isso ele passa a monitor os
+	 * tempos de respostas, executa o método numa thread separada, pois uma outra
+	 * thread fica monitorando para ver se está demorando muito para responder, etc.
+	 * No fallback, passamos o método que deve ser executado em caso de problema.
+	 *
+	 * Por default, o Hystrix espera 1 segundo e retorna erro 500.
+	 *
+	 * @param compra
+	 * @return
+	 */
+	@HystrixCommand(fallbackMethod = "realizaCompraFallback")
 	public Compra realizaCompra(CompraDTO compra) {
 
 		String estado = compra.getEndereco().getEstado();
@@ -42,7 +57,18 @@ public class CompraService {
 		compraSalva.setTempoDePreparo(pedido.getTempoDePreparo());
 		compraSalva.setEnderecoDestino(compra.getEndereco().toString());
 
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+		}
+
 		return compraSalva;
+	}
+
+	public Compra realizaCompraFallback(CompraDTO compra) {
+		Compra compraFallback = new Compra();
+		compraFallback.setEnderecoDestino(compra.getEndereco().toString());
+		return compraFallback;
 	}
 
 }
