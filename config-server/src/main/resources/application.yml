@@ -4,4 +4,4 @@ server:  port: 8888
 # Configuramos onde o server config deve buscar as configurações,
 # que serão compartilhadas com os demais serviços.
 spring:  cloud:    config:      server:        git:          uri: https://github.com/rutsatz/alura-microservicos-repo
-          search-paths: fornecedor, loja
+          search-paths: fornecedor, loja, transportador
