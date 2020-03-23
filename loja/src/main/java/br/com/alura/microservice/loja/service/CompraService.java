@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
+import br.com.alura.microservice.loja.CompraRepository;
 import br.com.alura.microservice.loja.client.FornecedorClient;
 import br.com.alura.microservice.loja.controller.dto.CompraDTO;
 import br.com.alura.microservice.loja.controller.dto.InfoFornecedorDTO;
@@ -21,6 +22,23 @@ public class CompraService {
 
 	@Autowired
 	private FornecedorClient fornecedorClient;
+
+	@Autowired
+	private CompraRepository compraRepository;
+
+	/**
+	 * Adicionando o paramâmetro threadPoolKey, o Hystrix ativa o BulkHead e deixa
+	 * um pool de threads para esse método. Por padrão são 10 threads para cada
+	 * método que tem o threadsPoolKey. Como aqui temos dois métodos com ele, cada
+	 * método recebe 10 threads.
+	 *
+	 * @param id
+	 * @return
+	 */
+	@HystrixCommand(threadPoolKey = "getByIdThreadPool")
+	public Compra getById(Long id) {
+		return compraRepository.findById(id).orElse(new Compra());
+	}
 
 	/**
 	 * O @HystrixCommand habilita o hystrix para fazer todo o gerenciamento do
@@ -56,11 +74,7 @@ public class CompraService {
 		compraSalva.setPedidoId(pedido.getId());
 		compraSalva.setTempoDePreparo(pedido.getTempoDePreparo());
 		compraSalva.setEnderecoDestino(compra.getEndereco().toString());
-
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-		}
+		compraRepository.save(compraSalva);
 
 		return compraSalva;
 	}
