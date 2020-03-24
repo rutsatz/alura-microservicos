@@ -13,3 +13,12 @@ security:
     resource:
       # Ele vai validar o token, e buscar as informações do usuário.
       user-info-uri: http://localhost:8088/user
+
+# Como alguns services estão com o pool de threads ativo e preciso interceptar os
+# requests no feign client para adicionar o token de autenticação do usuário para
+# poder consultar os demais serviços, preciso habilitar o compartilhamento do
+# contexto de segurança do hystrix, pois o service que consome está com o pool de threads
+# ativo, dessa forma o service é executado numa thread diferente da que recebeu a
+# requisição, dessa forma preciso habilitar esse compartilhamento para poder
+# recuperar o token do usuário logado e poder repassar ao feign client.
+hystrix:  shareSecurityContext: true
