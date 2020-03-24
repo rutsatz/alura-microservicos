@@ -12,3 +12,9 @@ eureka:
 # Inclui uma rota no spring boot actuator chamada de routes que vai listar
 # as rotas que ele encontrou no eureka.
 management:  endpoints:    web:      exposure:        include:        - "routes"
+
+# Quando o zuul recebe uma requisição, ele reencaminha para o serviço
+# solicitado. Porém, quando temos autenticação e precisamos do token,
+# temos que dizer ao zuul que queremos que ele também reencaminhe
+# esses dados do header. Passamos a lista de headers que ele deve reencaminhar.
+zuul:  sensitive-headers:  - Cookie, Authorization

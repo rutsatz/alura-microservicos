@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
-import br.com.alura.microservice.loja.CompraRepository;
 import br.com.alura.microservice.loja.client.FornecedorClient;
 import br.com.alura.microservice.loja.client.TransportadorClient;
 import br.com.alura.microservice.loja.controller.dto.CompraDTO;
@@ -17,6 +16,7 @@ import br.com.alura.microservice.loja.controller.dto.InfoPedidoDTO;
 import br.com.alura.microservice.loja.controller.dto.VoucherDTO;
 import br.com.alura.microservice.loja.model.Compra;
 import br.com.alura.microservice.loja.model.CompraState;
+import br.com.alura.microservice.loja.repository.CompraRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
